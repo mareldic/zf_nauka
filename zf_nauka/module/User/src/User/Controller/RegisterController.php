@@ -5,7 +5,10 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use User\Form\RegisterForm;
 use User\Form\RegisterFilter;
-
+use User\Model\User;
+use User\Model\UserTable;
+use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\TableGateway\TableGateway;
 /**
  * RegisterController
  *
@@ -66,18 +69,18 @@ class RegisterController extends AbstractActionController
     public function confirmAction()
     {
     	$viewModel  = new ViewModel();
+    	$viewModel->setTemplate("/user/register/confirm");
     	return $viewModel;
     }
     
     protected function createUser(array $data)
-    {
-    
+    {    
     	$sm = $this->getServiceLocator();
     	$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
     
-    	$resultSetPrototype = new \Zend\Db\ResultSet\ResultSet();
-    	$resultSetPrototype->setArrayObjectPrototype(new \User\Model\User);
-    	$tableGateway       = new \Zend\Db\TableGateway\TableGateway('user' /* table name  */, $dbAdapter, null, $resultSetPrototype);
+    	$resultSetPrototype = new ResultSet();
+    	$resultSetPrototype->setArrayObjectPrototype(new User);
+    	$tableGateway       = new TableGateway('user', $dbAdapter, null, $resultSetPrototype);
     
     	$user = new User();
     	$user->exchangeArray($data);

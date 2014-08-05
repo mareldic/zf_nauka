@@ -47,6 +47,14 @@ class RegisterFilter extends InputFilter
         $this->add(array(
         	"name" => "confirm_password",
             "required" => true,
+            'validators' => array (
+            		array (
+            				'name' => 'identical',
+            				'options' => array (
+            						'token' => 'password'
+            				),
+            		),
+            ),
         ));
     }
 }

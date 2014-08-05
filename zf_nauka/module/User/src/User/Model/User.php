@@ -1,5 +1,6 @@
 <?php
 namespace User\Model;
+
 class User
 {
     public $id;
